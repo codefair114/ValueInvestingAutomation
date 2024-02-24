@@ -48,12 +48,16 @@ def main():
     # Fetch data from the database
     data = fetch_company_scores()
 
-    # Prepare data for DataFrame
-    df = pd.DataFrame(data, columns=["Ticker", "Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", 
+    # Prepare data for DataFrame and drop ID column
+    df = pd.DataFrame(data, columns=["ID", "Ticker", "Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", 
                                       "Debt to Equity", "Interest Coverage", "Cash to Debt Liabilities", "PB", 
                                       "Payout Ratio", "Cash Dividend Yield", "Total Shareholder Yield", 
                                       "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
                                       "MOS DDM With Dividend Increase Buybacks", "Final Score"])
+    df.drop(columns=['ID'], inplace=True)
+
+    # Round Final Score to two decimal places
+    df["Final Score"] = df["Final Score"].round(2)
 
     # Apply color-coding to scores
     scores_columns = ["Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", "Debt to Equity", 
