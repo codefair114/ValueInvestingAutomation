@@ -1,6 +1,6 @@
 import streamlit as st
 import psycopg2
-
+import os
 
 # Function to connect to PostgreSQL database
 def connect_to_db():
