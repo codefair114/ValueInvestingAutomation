@@ -60,8 +60,6 @@ def main():
                       "Interest Coverage", "Cash to Debt Liabilities", "PB", "Payout Ratio", "Cash Dividend Yield", 
                       "Total Shareholder Yield", "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
                       "MOS DDM With Dividend Increase Buybacks", "Final Score"]
-    for column in scores_columns:
-        df[column] = df[column].apply(lambda x: map_score_to_color(x))
 
     # Display the DataFrame
     st.write("## Company Scores Table")
