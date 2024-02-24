@@ -28,17 +28,17 @@ def fetch_company_scores():
 # Function to map scores to color codes
 def map_score_to_color(score):
     if score == 1:
-        return "#FF0000"  # Red
+        return "color: #FF0000"  # Red
     elif score == 2:
-        return "#FF4500"  # Orange
+        return "color: #FF4500"  # Orange
     elif score == 3:
-        return "#FFFF00"  # Yellow
+        return "color: #FFFF00"  # Yellow
     elif score == 4:
-        return "#9ACD32"  # Yellow-Green
+        return "color: #9ACD32"  # Yellow-Green
     elif score == 5:
-        return "#008000"  # Green
+        return "color: #008000"  # Green
     else:
-        return "#000000"  # Black (default)
+        return "color: #000000"  # Black (default)
 
 
 # Function to display Streamlit app
@@ -61,13 +61,13 @@ def main():
                       "Total Shareholder Yield", "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
                       "MOS DDM With Dividend Increase Buybacks", "Final Score"]
     for column in scores_columns:
-        df[column] = df[column].apply(lambda x: f'<span style="color:{map_score_to_color(x)}">{x}</span>')
+        df[column] = df[column].apply(lambda x: f'background-color: {map_score_to_color(x)}')
 
     # Display the DataFrame
     st.write("## Company Scores Table")
     st.write("(Scores are color-coded)")
-    st.dataframe(df, unsafe_allow_html=True)
-
+    st.dataframe(df.style.applymap(lambda x: x))
+    
 
 if __name__ == "__main__":
     main()
