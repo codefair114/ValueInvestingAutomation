@@ -66,8 +66,6 @@ def main():
                       "MOS DDM With Dividend Increase Buybacks", "Final Score"]
 
     # Display the DataFrame
-    st.write("## Company Scores Table")
-    st.write("(Scores are color-coded)")
     st.dataframe(df)
 
 
