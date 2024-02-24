@@ -49,7 +49,7 @@ def main():
     data = fetch_company_scores()
 
     # Prepare data for DataFrame
-    df = pd.DataFrame(data, columns=["ID", "Ticker", "Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", 
+    df = pd.DataFrame(data, columns=["Ticker", "Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", 
                                       "Debt to Equity", "Interest Coverage", "Cash to Debt Liabilities", "PB", 
                                       "Payout Ratio", "Cash Dividend Yield", "Total Shareholder Yield", 
                                       "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
