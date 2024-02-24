@@ -1,6 +1,7 @@
 import streamlit as st
 import psycopg2
 import os
+import pandas as pd
 
 # Function to connect to PostgreSQL database
 def connect_to_db():
@@ -47,24 +48,25 @@ def main():
     # Fetch data from the database
     data = fetch_company_scores()
 
-    # Display data in a table
+    # Prepare data for DataFrame
+    df = pd.DataFrame(data, columns=["ID", "Ticker", "Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", 
+                                      "Debt to Equity", "Interest Coverage", "Cash to Debt Liabilities", "PB", 
+                                      "Payout Ratio", "Cash Dividend Yield", "Total Shareholder Yield", 
+                                      "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
+                                      "MOS DDM With Dividend Increase Buybacks", "Final Score"])
+
+    # Apply color-coding to scores
+    scores_columns = ["Cash to Market Cap", "PE", "P/FCF", "ROE", "ROIC", "Capital Spread", "Debt to Equity", 
+                      "Interest Coverage", "Cash to Debt Liabilities", "PB", "Payout Ratio", "Cash Dividend Yield", 
+                      "Total Shareholder Yield", "MOS DDM No Dividend Increase", "MOS DDM With Dividend Increase", 
+                      "MOS DDM With Dividend Increase Buybacks", "Final Score"]
+    for column in scores_columns:
+        df[column] = df[column].apply(lambda x: f'<span style="color:{map_score_to_color(x)}">{x}</span>')
+
+    # Display the DataFrame
     st.write("## Company Scores Table")
     st.write("(Scores are color-coded)")
-    st.write(
-        "| Ticker | Cash to Market Cap | PE | P/FCF | ROE | ROIC | Capital Spread | Debt to Equity | Interest Coverage | Cash to Debt Liabilities | PB | Payout Ratio | Cash Dividend Yield | Total Shareholder Yield | MOS DDM No Dividend Increase | MOS DDM With Dividend Increase | MOS DDM With Dividend Increase Buybacks | Final Score |")
-    st.write(
-        "| ------ | ------------------ | -- | ----- | --- | ---- | -------------- | --------------- | ----------------- | ------------------------ | -- | ------------- | ------------------ | ----------------------- | -------------------------- | ------------------------------- | ------------------------------------- | ------------ |")
-    for row in data:
-        ticker = row[1]
-        scores = row[2:-1]  # Exclude the ID and Final Score
-        final_score = row[-1]
-
-        # Color-code the scores
-        scores_with_colors = [f'<span style="color:{map_score_to_color(score)}">{score}</span>' for score in scores]
-        final_score_color = f'<span style="color:{map_score_to_color(final_score)}">{final_score}</span>'
-
-        # Display the row in the table
-        st.write(f"| {ticker} | {' | '.join(scores_with_colors)} | {final_score_color} |")
+    st.dataframe(df, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
